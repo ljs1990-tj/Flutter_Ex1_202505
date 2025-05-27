@@ -13,6 +13,12 @@ class DropDownEx1 extends StatefulWidget {
 class _DropDownEx1State extends State<DropDownEx1> {
   String selectItem = "Java";
   List<String> list = ["Java", "Oracle", "Html/CSS", "Flutter"];
+  Map<String, String> map = {
+    "Java" : "java.jpg",
+    "Oracle" : "oracle.jpg",
+    "Html/CSS" : "html.jpg",
+    "Flutter" : "jquery.jpg"
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +26,7 @@ class _DropDownEx1State extends State<DropDownEx1> {
       home : Scaffold(
         body : Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               DropdownButton(
                   value : selectItem,
@@ -37,7 +44,9 @@ class _DropDownEx1State extends State<DropDownEx1> {
                     });
                   }
               ),
-              Text("선택한 과목 : $selectItem"),
+              Container(height: 10,),
+              Image.asset(map[selectItem]!)
+              // Text("선택한 과목 : $selectItem"),
             ],
           ),
         )
