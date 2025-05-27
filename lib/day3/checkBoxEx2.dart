@@ -54,6 +54,19 @@ class _checkBoxEx2State extends State<checkBoxEx2> {
                 value: checkedList.contains(imgList[2]),
                 onChanged: (value) => listChanged(imgList[2], value!),
               ),
+            ),
+            Expanded(
+                child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5
+                    ),
+                    itemCount: checkedList.length,
+                    itemBuilder: (context, index) {
+                      return Image.asset(checkedList[index]);
+                    },
+                )
             )
           ],
         )
