@@ -32,6 +32,33 @@ class _ToDoManagerState extends State<ToDoManager> {
     });
   }
 
+  void deleteTodo(int index){
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title : Text("삭제"),
+          content: Text("정말 삭제 하실?"),
+          actions: [
+            TextButton(
+                onPressed: (){
+                  setState(() {
+                    list.removeAt(index);
+                  });
+                  Navigator.of(context).pop();
+                },
+                child: Text("삭제")
+            ),
+            TextButton(
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+                child: Text("취소")
+            )
+          ],
+        ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,9 +108,7 @@ class _ToDoManagerState extends State<ToDoManager> {
                             },
                         ),
                         trailing: IconButton(
-                            onPressed: (){
-                              // 다이얼로그 띄우기
-                            },
+                            onPressed: () => deleteTodo(index),
                             icon: Icon(Icons.delete)
                         ),
                       );
