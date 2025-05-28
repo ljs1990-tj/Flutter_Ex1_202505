@@ -40,6 +40,53 @@ class _DBWidgetState extends State<DBWidget> {
     });
   }
 
+  void editItem(int id, String name, int value){
+    TextEditingController nameCtrl = TextEditingController(text : name);
+    TextEditingController valueCtrl = TextEditingController(text : value.toString());
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title : Text("수정"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: nameCtrl,
+                  decoration: InputDecoration(labelText: "이름"),
+                ),
+                TextField(
+                  controller: valueCtrl,
+                  decoration: InputDecoration(labelText: "값"),
+                )
+              ],
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () async{
+                    String editName = nameCtrl.text;
+                    int editValue = int.tryParse(valueCtrl.text) ?? 0;
+
+                    await DB.updateData(id, editName, editValue);
+                    Navigator.of(context).pop();
+                    _fetchData();
+                  },
+                  child: Text("저장")
+              ),
+              TextButton(
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("취소")
+              )
+            ],
+          );
+        },
+    );
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +105,29 @@ class _DBWidgetState extends State<DBWidget> {
                   return ListTile(
                     title: Text(item[index]['name']),
                     subtitle: Text('Value: ${item[index]['value']}, Num: ${item[index]['num']}'),
-
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                            onPressed: (){
+                              editItem(
+                                item[index]["id"],
+                                item[index]["name"],
+                                item[index]["value"]
+                              );
+                            },
+                            icon: Icon(Icons.edit)
+                        ),
+                        IconButton(
+                            onPressed: () async {
+                              int id = item[index]['id'];
+                              await DB.deleteData(id);
+                              _fetchData();
+                            },
+                            icon: Icon(Icons.delete)
+                        )
+                      ],
+                    ),
                   );
                 },
               ),
