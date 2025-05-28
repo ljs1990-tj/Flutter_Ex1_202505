@@ -33,7 +33,7 @@ class _DBWidgetState extends State<DBWidget> {
   }
 
   // 데이터베이스에서 데이터 조회
-  void _fetchData() async {
+  Future<void> _fetchData() async {
     List<Map<String, dynamic>> data = await DB.getData();
     setState(() {
       item = data;  // 조회한 데이터를 리스트에 저장
