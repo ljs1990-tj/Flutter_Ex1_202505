@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '/common/db.dart';
+import 'UserList.dart';
 
 void main() => runApp(UserInsert());
 
@@ -32,7 +33,10 @@ class _UserInsertExamState extends State<UserInsertExam> {
         title : Text("sqflite 실습"),
         actions: [
           IconButton(
-              onPressed: (){},
+              onPressed: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserList(),));
+              },
               icon: Icon(Icons.list)
           )
         ],
@@ -60,7 +64,11 @@ class _UserInsertExamState extends State<UserInsertExam> {
                     int age = int.tryParse(ageCtrl.text) ?? 0;
 
                     await DB.insertUser(name, age);
-
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("저장 되었음!"))
+                    );
+                    nameCtrl.clear();
+                    ageCtrl.clear();
                   },
                   child: Text("사용자 추가")
               )
