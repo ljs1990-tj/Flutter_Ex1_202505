@@ -17,7 +17,42 @@ class DB {
           num REAL
         )
       ''');
+      await db.execute('''
+        CREATE TABLE TBL_USER (
+            ID INTEGER PRIMARY KEY AUTOINCREMENT,
+            NAME TEXT,
+            AGE INTEGER
+          )
+      ''');
+
     });
+  }
+
+  // 데이터 삽입(함수)
+  static Future<void> insertUser(String name, int age) async {
+    final db = await getDatabase();
+    await db.insert('TBL_USER', {'name': name, 'age': age});
+  }
+  // 데이터 조회(함수)
+  static Future<List<Map<String, dynamic>>> selectUser() async {
+    final db = await getDatabase();
+    return await db.query('TBL_USER');
+  }
+
+  // 데이터 삽입(함수)
+  static Future<void> updateUser(int userId, String name, int age) async {
+    final db = await getDatabase();
+    await db.update('TBL_USER', {'name': name, 'age': age},
+        where: 'id = ?', whereArgs: [userId]);
+  }
+  static Future<void> removeUser(int userId) async {
+    final db = await getDatabase();
+    await db.delete('TBL_USER', where: 'id = ?', whereArgs: [userId]);
+  }
+
+  static Future<List<Map<String, dynamic>>> loadUser(int userId) async {
+    final db = await getDatabase();
+    return await db.query('TBL_USER', where:"id = ?", whereArgs: [userId]);
   }
 
   // 데이터 삽입(함수)
